@@ -19,8 +19,20 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: ${{ inputs.go-version }}
+          
+      - uses: golangci/golangci-lint-action@v3.5.0
 
       - uses: goreleaser/goreleaser-action@v4.2.0
+        with:
+          args: check
+
+      - if: github.event_name == 'pull_request'
+        uses: goreleaser/goreleaser-action@v4.2.0
+        with:
+          args: release --clean --snapshot
+
+      - if: github.event_name == 'release'
+        uses: goreleaser/goreleaser-action@v4.2.0
         with:
           args: release --clean ${{ inputs.release-args }}
         env:
