@@ -1,0 +1,26 @@
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        required: false
+        type: string
+        default: '3.11'
+
+permissions:
+  contents: read
+
+jobs:
+  python-poetry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ inputs.python-version }}
+          cache: 'pip'
+
+      - run: |
+          pip install poetry
+          poetry install
+          poetry run black --check .
