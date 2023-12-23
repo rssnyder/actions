@@ -39,6 +39,5 @@ jobs:
         with:
           context: .
           platforms: ${{ inputs.platforms }}
-          push: ${{ github.event_name == 'release' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
